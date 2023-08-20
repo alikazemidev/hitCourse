@@ -2,8 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isMale = true;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                           hintText: 'شماره موبایل خود را وارد کنید.',
                         ),
                         SizedBox(
-                          height: 8,
+                          height: 20,
                         ),
                         Text(
                           'جنسیت',
@@ -79,7 +84,115 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(
                           height: 8,
                         ),
-
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    isMale = true;
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          'مرد',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 20,
+                                          height: 20,
+                                          decoration: BoxDecoration(
+                                            color: isMale ? Colors.blue : null,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    isMale = false;
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          'زن',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 20,
+                                          height: 20,
+                                          decoration: BoxDecoration(
+                                            color: !isMale ? Colors.blue : null,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // RadioMenuButton(
+                              //   value: 'مرد',
+                              //   groupValue: 'مرد',
+                              //   onChanged: (value) {
+                              //     print(value);
+                              //   },
+                              //   child: Text('مرد'),
+                              // ),
+                              // RadioMenuButton(
+                              //   value: 'زن',
+                              //   groupValue: 'زن',
+                              //   onChanged: (value) {
+                              //     print(value);
+                              //   },
+                              //   child: Text('زن'),
+                              // ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
