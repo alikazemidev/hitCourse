@@ -1,6 +1,4 @@
-import 'package:counter_hit/screens/counter_screen.dart';
 import 'package:counter_hit/screens/login_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {

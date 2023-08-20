@@ -7,9 +7,23 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+class Ability {
+  final String name;
+   bool isSelected;
+
+  Ability({required this.name, this.isSelected = false});
+}
+
 class _LoginScreenState extends State<LoginScreen> {
   bool isMale = true;
-
+  List<Ability> abilities = [
+    Ability(name: 'فلاتر'),
+    Ability(name: 'ری اکت'),
+    Ability(name: 'کاتلین'),
+    Ability(name: 'جاوا اسکریپت'),
+    Ability(name: 'هوش مصنوعی'),
+    Ability(name: 'پایتون'),
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -174,25 +188,63 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              // RadioMenuButton(
-                              //   value: 'مرد',
-                              //   groupValue: 'مرد',
-                              //   onChanged: (value) {
-                              //     print(value);
-                              //   },
-                              //   child: Text('مرد'),
-                              // ),
-                              // RadioMenuButton(
-                              //   value: 'زن',
-                              //   groupValue: 'زن',
-                              //   onChanged: (value) {
-                              //     print(value);
-                              //   },
-                              //   child: Text('زن'),
-                              // ),
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'توانایی ها',
+                          style: TextStyle(
+                            color: Color(0xff00685e),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Wrap(
+                          runSpacing: 15,
+                          spacing: 20,
+                          children: List.generate(
+                            abilities.length,
+                            (index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    abilities[index].isSelected =
+                                        !abilities[index].isSelected;
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: 110,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color:!abilities[index].isSelected ? Colors.white :Colors.blue,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          border: Border.all(
+                                              color: Colors.grey, width: 1),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(abilities[index].name),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
