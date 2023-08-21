@@ -14,14 +14,39 @@ class _AdsHomeScreenState extends State<AdsHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
+      drawer: SafeArea(
+        child: Drawer(
+          backgroundColor: Color(0xff5c45db),
+          child: Column(
+            children: [
+              SizedBox(height: 30,),
+              Image.asset('assets/images/logo.png',height: 80,),
+              SizedBox(height: 30,),
+              Text(
+                'به اپ ما خوش آمدید',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                ),
+              )
+            ],
+          ),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
+      ),
+      backgroundColor: Colors.black,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
           ),
           child: BottomNavigationBar(
             backgroundColor: Colors.black,
