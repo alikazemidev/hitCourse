@@ -52,8 +52,52 @@ class MainPageAdsApp extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            IconButton(
-              onPressed: () {},
+            PopupMenuButton(
+              position: PopupMenuPosition.under,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              color: Color(0xff5c45db),
+              onOpened: () {},
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                      child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'جدیدترین',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )),
+                  PopupMenuItem(
+                      child: Center(
+                    child: Text(
+                      'پربازدیدترین',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
+                ];
+              },
               icon: Directionality(
                 textDirection: TextDirection.ltr,
                 child: Icon(
@@ -93,7 +137,7 @@ class FiltterBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(abilities.length, (index) {
               return Container(
-                margin: EdgeInsets.only(bottom:10 ),
+                margin: EdgeInsets.only(bottom: 10),
                 width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
