@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../models/ads.dart';
 
 class MainPageAdsApp extends StatelessWidget {
   const MainPageAdsApp({super.key});
@@ -114,163 +115,176 @@ class MainPageAdsApp extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            height: 180,
-            // color: Colors.grey.shade100,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 12),
-                    padding: EdgeInsets.all(8),
-                    width: double.infinity,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff009cdf),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //  badge
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            // margin: EdgeInsets.all(12),
-                            padding: EdgeInsets.fromLTRB(15, 1, 15, 0),
-                            height: 30,
-                            decoration: BoxDecoration(
+        Expanded(
+          child: ListView.builder(
+            itemCount: Ads.adsList.length,
+            itemBuilder: (BuildContext context, int index) {
+              var adHelper = Ads.adsList[index];
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  height: 190,
+                  // color: Colors.grey.shade100,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 12),
+                          padding: EdgeInsets.all(8),
+                          width: double.infinity,
+                          height: 160,
+                          decoration: BoxDecoration(
+                            border: Border.all(
                               color: Color(0xff009cdf),
-                              borderRadius: BorderRadius.circular(20),
+                              width: 2,
                             ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //  badge
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  // margin: EdgeInsets.all(12),
+                                  padding: EdgeInsets.fromLTRB(15, 1, 15, 0),
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff009cdf),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    adHelper.inPerson
+                                        ? 'حضوری'
+                                        : 'غیر حضوری',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Text(
+                                   'مهارت ها',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: Text(
+                                      adHelper.abilities,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    'حقوق پیشنهادی : ',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    adHelper.salary,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Color(0xff009cdf),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Icon(
+                                  CupertinoIcons.delete,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //  title
+                      Container(
+                        margin: EdgeInsets.only(right: 30),
+                        padding: EdgeInsets.fromLTRB(18, 1, 18, 0),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color(0xff5c45db),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.white,
+                          ),
+                        ),
+                        child: Text(
+                          adHelper.title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      // moshahede
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          height: 30,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            color: Color(0xff5c45db),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(4),
+                              topLeft: Radius.circular(4),
+                            ),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Center(
                             child: Text(
-                              'حضوری',
+                              'مشاهده',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'مهارت ها : ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'تسلط به زبان دارت و فریم ورک فلاتر',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text(
-                              'حقوق پیشنهادی : ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '۲۰ تا ۳۰ میلیون ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Color(0xff009cdf),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Icon(
-                            CupertinoIcons.delete,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                //  title
-                Container(
-                  margin: EdgeInsets.only(right: 30),
-                  padding: EdgeInsets.fromLTRB(18, 1, 18, 0),
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: Color(0xff5c45db),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: Text(
-                    'برنامه نویس فلاتر',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                // moshahede
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    height: 30,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: Color(0xff5c45db),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(4),
-                        topLeft: Radius.circular(4),
-                      ),
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'مشاهده',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ],
