@@ -1,3 +1,4 @@
+import 'package:counter_hit/ads_app/screens/details_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/ads.dart';
@@ -156,9 +157,7 @@ class MainPageAdsApp extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    adHelper.inPerson
-                                        ? 'حضوری'
-                                        : 'غیر حضوری',
+                                    adHelper.inPerson ? 'حضوری' : 'غیر حضوری',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -171,7 +170,7 @@ class MainPageAdsApp extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                   'مهارت ها',
+                                    'مهارت ها',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -251,30 +250,40 @@ class MainPageAdsApp extends StatelessWidget {
                         ),
                       ),
                       // moshahede
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          height: 30,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            color: Color(0xff5c45db),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(4),
-                              topLeft: Radius.circular(4),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailsPage(),
                             ),
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.white,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'مشاهده',
-                              style: TextStyle(
+                          );
+                        },
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            height: 30,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: Color(0xff5c45db),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(4),
+                                topLeft: Radius.circular(4),
+                              ),
+                              border: Border.all(
+                                width: 1,
                                 color: Colors.white,
-                                fontSize: 16,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'مشاهده',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
