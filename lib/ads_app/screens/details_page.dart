@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:counter_hit/ads_app/models/ads.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({super.key});
-
+  const DetailsPage({super.key, required this.ads});
+  final Ads ads;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +11,7 @@ class DetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xff635adf),
         title: Text(
-          'استخدام برنامه نویس فلاتر',
+          ads.title,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class DetailsPage extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.',
+                          ads.abilities,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -62,7 +62,7 @@ class DetailsPage extends StatelessWidget {
               MaterialButton(
                 minWidth: double.infinity,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(50),
                 ),
                 color: Color(0xff009cdf),
                 onPressed: () {},
@@ -70,6 +70,7 @@ class DetailsPage extends StatelessWidget {
                   'ثبت درخواست',
                   style: TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               )

@@ -210,17 +210,27 @@ class MainPageAdsApp extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: 10),
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff009cdf),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Icon(
-                                  CupertinoIcons.delete,
-                                  color: Colors.white,
-                                  size: 18,
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return DeleteDialog();
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff009cdf),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Icon(
+                                    CupertinoIcons.delete,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ],
@@ -255,7 +265,9 @@ class MainPageAdsApp extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailsPage(),
+                              builder: (context) => DetailsPage(
+                                ads: adHelper,
+                              ),
                             ),
                           );
                         },
@@ -297,6 +309,87 @@ class MainPageAdsApp extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class DeleteDialog extends StatelessWidget {
+  const DeleteDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      backgroundColor: Color(0xff5c45db),
+      child: Container(
+        height: 200,
+        padding: EdgeInsets.all(25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'آیا از حذف این مورد مطمئن هستید؟',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'بله',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'خیر',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
