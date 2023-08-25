@@ -1,4 +1,4 @@
-import 'package:counter_hit/ads_app/screens/main_page.dart';
+import 'package:counter_hit/1ads_app/screens/main_page.dart';
 import 'package:flutter/material.dart';
 
 class AdsHomeScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:counter_hit/ads_app/models/ads.dart';
+import 'package:counter_hit/1ads_app/models/ads.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import './models/note.dart';
 
@@ -12,6 +11,8 @@ class NoteAppHomePage extends StatefulWidget {
 }
 
 class _NoteAppHomePageState extends State<NoteAppHomePage> {
+  Box<Note>? noteBox = Hive.box('noteBox');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +24,7 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
             builder: (context) {
               return AddNoteDialog(
                 onAdd: (note) {
-                  Note.noteList.add(note);
+                  noteBox!.add(note);
                   setState(() {});
                 },
               );
@@ -76,7 +77,7 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: Note.noteList.length,
+                  itemCount: noteBox?.length ?? 0,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       shape: RoundedRectangleBorder(
@@ -85,18 +86,31 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
                       elevation: 5,
                       child: ListTile(
                         title: Text(
-                          Note.noteList[index].title,
+                          noteBox?.getAt(index)?.title ?? '',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                           ),
                         ),
-                        subtitle: Text(Note.noteList[index].subTitle),
+                        subtitle: Text(noteBox?.getAt(index)?.subTitle ?? ''),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AddNoteDialog(
+                                      onAdd: (note) {
+                                        noteBox?.putAt(index, note);
+                                        setState(() {});
+                                      },
+                                      note: noteBox?.getAt(index),
+                                    );
+                                  },
+                                );
+                              },
                               icon: Icon(
                                 CupertinoIcons.pencil,
                                 size: 25,
@@ -106,7 +120,7 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  Note.noteList.removeAt(index);
+                                  noteBox?.deleteAt(index);
                                 });
                               },
                               icon: Icon(
@@ -130,35 +144,18 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
   }
 }
 
-// class NoteItem extends StatefulWidget {
-//   final Note note;
-//   final int indexNote;
-//   const NoteItem({
-//     super.key,
-//     required this.note,
-//     required this.indexNote,
-//   });
-
-//   @override
-//   State<NoteItem> createState() => _NoteItemState();
-// }
-
-// class _NoteItemState extends State<NoteItem> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
+// ignore: must_be_immutable
 class AddNoteDialog extends StatelessWidget {
+  AddNoteDialog({required this.onAdd, this.note});
   final Function(Note note) onAdd;
-  AddNoteDialog({required this.onAdd});
-
-  final TextEditingController _controllerTitle = TextEditingController();
-  final TextEditingController _controllerSubTitle = TextEditingController();
+  final Note? note;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _controllerTitle =
+        TextEditingController(text: note?.title);
+    TextEditingController _controllerSubTitle =
+        TextEditingController(text: note?.subTitle);
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
@@ -172,7 +169,7 @@ class AddNoteDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'افزودن یادداشت',
+                note != null ? 'ویرایش یادداشت' : 'افزودن یادداشت',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -250,7 +247,7 @@ class AddNoteDialog extends StatelessWidget {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          'افزودن',
+                          note != null ? 'ویرایش' : 'افزودن',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
