@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import './models/note.dart';
 
 class NoteAppHomePage extends StatefulWidget {
@@ -56,6 +58,7 @@ class _NoteAppHomePageState extends State<NoteAppHomePage> {
         ),
       ),
       appBar: AppBar(
+        actions: [],
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
