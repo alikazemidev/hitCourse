@@ -13,11 +13,10 @@ class HomePageApiApp extends StatefulWidget {
 class _HomePageApiAppState extends State<HomePageApiApp> {
   Student? student;
 
-
   Future<void> getData() async {
     var response = await Dio().get("https://hitaldev.ir/api/students/1");
-    student = Student.fromJson(response.data);
-    print(response.data);
+    student = Student.fromJson(response.data["data"]);
+    print(student?.name);
     setState(() {});
   }
 
@@ -39,36 +38,52 @@ class _HomePageApiAppState extends State<HomePageApiApp> {
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.all(25),
-          height: 300,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(
-                color: Colors.white,
-                width: 4,
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(
-                  'assets/images/images.jpg',
-                  width: 90,
-                  height: 90,
-                  fit: BoxFit.cover,
+      body: student == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Center(
+              child: Container(
+                margin: EdgeInsets.all(25),
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 4,
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: student == null
+                          ? Image.asset(
+                              'assets/images/images.jpg',
+                              width: 90,
+                              height: 90,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              "${student?.avatar}",
+                              width: 90,
+                              height: 90,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    Text('${student?.name}'),
+                    Text('${student?.age}'),
+                    Text(
+                      '${student?.description}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(),
+                    ),
+                  ],
                 ),
               ),
-              Text('name'),
-              Text('abilities'),
-              Text('description'),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
