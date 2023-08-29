@@ -1,6 +1,7 @@
 import 'package:counter_hit/api_app/home_page_api_app.dart';
 import 'package:counter_hit/note_app/models/note.dart';
 import 'package:counter_hit/note_app/note_app_home_screen.dart';
+import 'package:counter_hit/student_app/home_page_student_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'samim',
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePageApiApp(),
+      home: HomePageStuddentApp(),
     );
   }
 }

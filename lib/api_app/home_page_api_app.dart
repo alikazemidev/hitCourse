@@ -16,7 +16,7 @@ class _HomePageApiAppState extends State<HomePageApiApp> {
   Future<void> getData() async {
     var response = await Dio().get("https://hitaldev.ir/api/students/1");
     student = Student.fromJson(response.data["data"]);
-    // print(student?.name);
+    print(student?.name);
     setState(() {});
   }
 
