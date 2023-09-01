@@ -1,13 +1,50 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class AddStudentPage extends StatelessWidget {
+import 'package:image_picker/image_picker.dart';
+
+class AddStudentPage extends StatefulWidget {
   AddStudentPage({super.key});
 
+  @override
+  State<AddStudentPage> createState() => _AddStudentPageState();
+}
+
+class _AddStudentPageState extends State<AddStudentPage> {
+  final ImagePicker picker = ImagePicker();
+  XFile? avatar;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
+
+  Future<void> selectImage() async {
+    avatar = await picker.pickImage(source: ImageSource.gallery);
+    print(avatar);
+    setState(() {});
+  }
+
+  Future<void> createStudent() async {
+    var formData = FormData();
+
+    formData.fields.add(MapEntry('name', nameController.text));
+
+    formData.fields.add(MapEntry('age', ageController.text));
+
+    formData.fields.add(MapEntry('description', descController.text));
+
+    if (avatar != null) {
+      formData.files
+          .add(MapEntry('avatar', MultipartFile.fromFileSync(avatar!.path)));
+    }
+    var response = await Dio().post(
+      'https://hitaldev.ir/api/students',
+      data: formData,
+    );
+    print(response);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +123,9 @@ class AddStudentPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  selectImage();
+                },
                 child: Text(
                   'عکس پروفایل',
                   style: TextStyle(
@@ -96,6 +135,17 @@ class AddStudentPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
+              avatar == null
+                  ? Container()
+                  : Center(
+                      child: Image.file(
+                        File(avatar!.path),
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+              SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 50),
@@ -103,7 +153,11 @@ class AddStudentPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     )),
-                onPressed: () {},
+                onPressed: () {
+                  createStudent();
+                  print(nameController.text);
+                  print(ageController.text);
+                },
                 child: Text('ثبت دانش آموز'),
               )
             ],
