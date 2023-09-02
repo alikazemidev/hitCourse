@@ -39,7 +39,11 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddStudentPage(),
+              builder: (context) => AddStudentPage(
+                onCreated: () {
+                  getData();
+                 },
+              ),
             ),
           );
         },

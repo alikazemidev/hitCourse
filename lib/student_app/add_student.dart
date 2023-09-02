@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddStudentPage extends StatefulWidget {
-  AddStudentPage({super.key});
+  final Function onCreated;
+  AddStudentPage({super.key, required this.onCreated});
 
   @override
   State<AddStudentPage> createState() => _AddStudentPageState();
 }
 
 class _AddStudentPageState extends State<AddStudentPage> {
+  final formKey = GlobalKey<FormState>();
   final ImagePicker picker = ImagePicker();
   XFile? avatar;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
+  bool isLoading = false;
 
   Future<void> selectImage() async {
     avatar = await picker.pickImage(source: ImageSource.gallery);
@@ -28,21 +31,24 @@ class _AddStudentPageState extends State<AddStudentPage> {
 
   Future<void> createStudent() async {
     var formData = FormData();
-
     formData.fields.add(MapEntry('name', nameController.text));
-
     formData.fields.add(MapEntry('age', ageController.text));
-
     formData.fields.add(MapEntry('description', descController.text));
-
     if (avatar != null) {
       formData.files
           .add(MapEntry('avatar', MultipartFile.fromFileSync(avatar!.path)));
     }
+    setState(() {
+      isLoading = true;
+    });
     var response = await Dio().post(
       'https://hitaldev.ir/api/students',
       data: formData,
     );
+    setState(() {
+      isLoading = false;
+    });
+    widget.onCreated();
     print(response);
   }
 
@@ -64,103 +70,127 @@ class _AddStudentPageState extends State<AddStudentPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: InputBorder.none,
-                  hintText: 'نام و نام خانوادگی',
-                  hintStyle: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: ageController,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: InputBorder.none,
-                  hintText: 'سن',
-                  hintStyle: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                maxLines: 5,
-                controller: descController,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: InputBorder.none,
-                  hintText: 'توضیحات',
-                  hintStyle: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  selectImage();
-                },
-                child: Text(
-                  'عکس پروفایل',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              avatar == null
-                  ? Container()
-                  : Center(
-                      child: Image.file(
-                        File(avatar!.path),
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "نام را وارد کنید";
+                    }
+                    return null;
+                  },
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: InputBorder.none,
+                    hintText: 'نام و نام خانوادگی',
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
                     ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
-                    backgroundColor: Colors.teal.shade500,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    )),
-                onPressed: () {
-                  createStudent();
-                  print(nameController.text);
-                  print(ageController.text);
-                },
-                child: Text('ثبت دانش آموز'),
-              )
-            ],
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "سن را وارد کنید";
+                    }
+                    return null;
+                  },
+                  controller: ageController,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: InputBorder.none,
+                    hintText: 'سن',
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  maxLines: 5,
+                  controller: descController,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: InputBorder.none,
+                    hintText: 'توضیحات',
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    selectImage();
+                  },
+                  child: Text(
+                    'عکس پروفایل',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                avatar == null
+                    ? Container()
+                    : Center(
+                        child: Image.file(
+                          File(avatar!.path),
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      disabledBackgroundColor: Colors.teal.shade200,
+                      minimumSize: Size(double.infinity, 50),
+                      backgroundColor: Colors.teal.shade500,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      )),
+                  onPressed: !isLoading
+                      ? () {
+                          if (formKey.currentState!.validate()) {
+                            createStudent().then((value) => Navigator.pop(context));
+                          }
+                        }
+                      : null,
+                  child: isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Text(
+                          'ثبت دانش آموز',
+                        ),
+                )
+              ],
+            ),
           ),
         ),
       ),
