@@ -42,7 +42,7 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
               builder: (context) => AddStudentPage(
                 onCreated: () {
                   getData();
-                 },
+                },
               ),
             ),
           );
@@ -72,6 +72,7 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
                 itemCount: studetns!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return StudentCard(
+                    myGetData: getData,
                     myStudent: studetns!,
                     myIndex: index,
                   );
@@ -83,10 +84,12 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
 }
 
 class StudentCard extends StatelessWidget {
+  final Function myGetData;
   final List<Student> myStudent;
   final int myIndex;
   const StudentCard({
     super.key,
+    required this.myGetData,
     required this.myStudent,
     required this.myIndex,
   });
@@ -143,7 +146,19 @@ class StudentCard extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddStudentPage(
+                            onCreated: () {
+                              myGetData();
+                            },
+                            id: myStudent[myIndex].id,
+                          ),
+                        ),
+                      );
+                    },
                     child: Icon(
                       CupertinoIcons.pencil,
                       color: Colors.black,
