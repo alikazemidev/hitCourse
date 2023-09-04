@@ -27,7 +27,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController descController = TextEditingController();
-  final TextEditingController imageController = TextEditingController();
+
   bool isLoading = false;
 
   Future<void> selectImage() async {

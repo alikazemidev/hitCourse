@@ -23,6 +23,14 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
     setState(() {});
   }
 
+  Future<void> deleteStudent(int id) async {
+    var res = await Dio().delete('https://hitaldev.ir/api/students/$id');
+    if (res.statusCode == 200) {
+      studetns?.removeWhere((student) => student.id == id);
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     getData();
@@ -72,6 +80,9 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
                 itemCount: studetns!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return StudentCard(
+                    removeStudent: () {
+                      deleteStudent(studetns![index].id!);
+                    },
                     myGetData: getData,
                     myStudent: studetns!,
                     myIndex: index,
@@ -84,10 +95,13 @@ class _HomePageStuddentAppState extends State<HomePageStuddentApp> {
 }
 
 class StudentCard extends StatelessWidget {
+  final Function removeStudent;
   final Function myGetData;
   final List<Student> myStudent;
   final int myIndex;
+
   const StudentCard({
+    required this.removeStudent,
     super.key,
     required this.myGetData,
     required this.myStudent,
@@ -166,7 +180,9 @@ class StudentCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      removeStudent();
+                    },
                     icon: Icon(
                       CupertinoIcons.delete,
                       color: Colors.black,
