@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -12,9 +15,10 @@ class HomePageMapApp extends StatefulWidget {
 }
 
 class _HomePageMapAppState extends State<HomePageMapApp> {
+  MapController _mapController = MapController();
+  List<Marker> markers = [];
 
-  
-  Future<Position> _determinePosition() async {
+  Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -48,7 +52,24 @@ class _HomePageMapAppState extends State<HomePageMapApp> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition();
+    _mapController.move(LatLng(position.latitude, position.longitude), 10);
+    markers.add(
+      Marker(
+        point: LatLng(position.latitude, position.longitude),
+        builder: (context) => Icon(
+          Icons.location_on,
+          color: Colors.blue,
+          size: 50,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    determinePosition();
+    super.initState();
   }
 
   @override
@@ -56,14 +77,37 @@ class _HomePageMapAppState extends State<HomePageMapApp> {
     return Scaffold(
       body: SafeArea(
         child: FlutterMap(
+          mapController: _mapController,
           options: MapOptions(
+
             center: LatLng(35.730527, 51.8462604),
             zoom: 14,
+            onTap: (tapPosition, point) {
+              if (markers.length > 1) {
+               markers.clear();
+              } else {
+                markers.add(
+                  Marker(
+                    point: point,
+                    builder: (context) => Icon(
+                      Icons.location_on,
+                      color:markers.length == 1 ? Colors.blue: Colors.red,
+                      size: 50,
+                    ),
+                  ),
+                );
+              }
+
+              setState(() {});
+            },
           ),
           children: [
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             ),
+            MarkerLayer(
+              markers: markers,
+            )
           ],
         ),
       ),
