@@ -1,5 +1,6 @@
-import 'package:counter_hit/map_app/home_page_map_app.dart';
+
 import 'package:counter_hit/note_app/models/note.dart';
+import 'package:counter_hit/state_managment_apps/counter_app_get/home_page_counter_get.dart';
 
 // import 'package:counter_hit/student_app/home_page_student_app.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -31,9 +33,10 @@ class MyApp extends StatelessWidget {
       locale: Locale('fa', 'IR'),
       theme: ThemeData(
         fontFamily: 'samim',
+        // useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePageMapApp(),
+      home: HomePageCounterGet(),
     );
   }
 }
