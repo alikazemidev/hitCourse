@@ -5,6 +5,7 @@ import 'package:counter_hit/state_managment_apps/counter_app_get/home_page_count
 // import 'package:counter_hit/student_app/home_page_student_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
 
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
