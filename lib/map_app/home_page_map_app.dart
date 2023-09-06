@@ -12,9 +12,8 @@ class HomePageMapApp extends StatefulWidget {
 }
 
 class _HomePageMapAppState extends State<HomePageMapApp> {
-
-  
-  Future<Position> _determinePosition() async {
+  MapController _mapController = MapController();
+  Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -48,7 +47,14 @@ class _HomePageMapAppState extends State<HomePageMapApp> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition();
+    _mapController.move(LatLng(position.latitude, position.longitude), 14);
+  }
+
+  @override
+  void initState() {
+    _determinePosition();
+    super.initState();
   }
 
   @override
@@ -56,6 +62,7 @@ class _HomePageMapAppState extends State<HomePageMapApp> {
     return Scaffold(
       body: SafeArea(
         child: FlutterMap(
+          mapController: _mapController,
           options: MapOptions(
             center: LatLng(35.730527, 51.8462604),
             zoom: 14,
