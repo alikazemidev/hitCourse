@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -79,19 +76,18 @@ class _HomePageMapAppState extends State<HomePageMapApp> {
         child: FlutterMap(
           mapController: _mapController,
           options: MapOptions(
-
             center: LatLng(35.730527, 51.8462604),
             zoom: 14,
             onTap: (tapPosition, point) {
               if (markers.length > 1) {
-               markers.clear();
+                markers.clear();
               } else {
                 markers.add(
                   Marker(
                     point: point,
                     builder: (context) => Icon(
                       Icons.location_on,
-                      color:markers.length == 1 ? Colors.blue: Colors.red,
+                      color: markers.length == 1 ? Colors.blue : Colors.red,
                       size: 50,
                     ),
                   ),
